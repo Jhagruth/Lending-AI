@@ -112,6 +112,11 @@ This will start:
 
 Logs from both services will appear in your terminal.
 
+![WhatsApp Image 2025-08-30 at 12 06 56](https://github.com/user-attachments/assets/64841348-cc64-47e8-9734-36a131d9d30d)
+![WhatsApp Image 2025-08-30 at 11 22 59](https://github.com/user-attachments/assets/074cf143-1f6d-44dc-93d9-e474eda175ea)
+![WhatsApp Image 2025-08-30 at 11 25 34](https://github.com/user-attachments/assets/f573eb4c-9e8a-45d9-bfd9-83c0ac1966c0)
+![WhatsApp Image 2025-08-30 at 11 25 21](https://github.com/user-attachments/assets/e2113384-5760-41fd-8ce4-c67c1d4edd9b)
+
 ---
 
 📌 Usage
