@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compliance Copilot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        @import url('https://rsms.me/inter/inter.css');
+        html { font-family: 'Inter', sans-serif; }
+        @supports (font-variation-settings: normal) {
+            html { font-family: 'Inter var', sans-serif; }
+        }
+
+        body {
+            background-color: #05060A;
+            color: #E0E0E0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #1a8be4, #1c565c, #1b443d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .main-container {
+            max-width: 1280px; margin-left: auto; margin-right: auto;
+            padding-left: 24px; padding-right: 24px;
+        }
+
+        .pro-button {
+            border-radius: 9999px; font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            padding: 16px 36px; font-size: 16px;
+            display: inline-flex; align-items: center; justify-content: center;
+            border: 1px solid transparent;
+            position: relative; overflow: hidden;
+        }
+        
+        .pro-button-primary { 
+             background: linear-gradient(90deg, #1a8be4, #174a75); color: white;
+             box-shadow: 0 5px 20px 0 rgba(26, 139, 228, 0.3);
+        }
+        .pro-button-primary:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 8px 25px 0 rgba(26, 139, 228, 0.4); }
+        
+        .pro-button-secondary { 
+            background-color: transparent; color: #cbd5e1; 
+            border-color: rgba(255,255,255,0.2);
+        }
+        .pro-button-secondary:hover { background-color: rgba(26, 139, 228, 0.05); border-color: rgba(26, 139, 228, 0.3); }
+
+        .spinner { border-top-color: #1a8be4; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px) scale(0.98);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0) scale(1); }
+        
+        #chat-widget { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease-out; }
+        .chat-hidden { transform: translateY(30px) scale(0.95); opacity: 0; pointer-events: none; }
+        
+        .background-aurora {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle at center, rgba(31, 147, 236, 0.2) 0%, rgba(28, 86, 92, 0.15) 25%, rgba(5, 6, 10, 0) 60%);
+            animation: rotate-aurora 40s linear infinite;
+        }
+
+        @keyframes rotate-aurora {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .glass-card {
+            background: rgba(15, 17, 28, 0.5);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-[#05060A]">
+
+    <div class="min-h-screen flex flex-col relative overflow-hidden">
+        <!-- Background -->
+        <div class="absolute top-0 left-0 w-full h-full -z-10">
+            <div class="background-aurora"></div>
+        </div>
+
+        <!-- Header -->
+        <header class="bg-transparent backdrop-blur-lg fixed top-0 left-0 right-0 z-40">
+            <div class="main-container">
+                <div class="flex items-center h-24">
+                    <div class="flex items-center gap-3">
+                        <svg class="h-10 w-10 text-slate-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.286zm0 13.036h.008v.008h-.008v-.008z" />
+                        </svg>
+                        <h1 class="text-2xl font-semibold text-slate-200 tracking-tight">Compliance Copilot</h1>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-1 z-10 pt-24">
+            <!-- Hero Section -->
+            <section class="text-center pt-24 pb-32">
+                <div class="main-container">
+                    <h2 class="text-6xl md:text-8xl font-bold mb-6 text-slate-50 tracking-tighter">
+                       Future-Proof Finance.
+                    </h2>
+                    <p class="text-xl text-slate-400 mb-12 max-w-3xl mx-auto leading-relaxed">Harness institutional-grade AI to transform complex financial data into clear, actionable intelligence reports.</p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <input type="file" id="file-upload" accept=".json" class="hidden">
+                        <label for="file-upload" class="w-full sm:w-auto cursor-pointer pro-button pro-button-secondary">
+                            <span id="file-name">Choose File</span>
+                        </label>
+                        <button id="run-assessment" class="w-full sm:w-auto pro-button pro-button-primary disabled:opacity-40" disabled>
+                            Generate Report
+                        </button>
+                    </div>
+                    <div id="loading-indicator" class="mt-10 hidden flex-col items-center justify-center text-slate-400 gap-4">
+                        <div class="flex items-center">
+                            <div class="spinner w-6 h-6 border-2 border-transparent rounded-full mr-3"></div>
+                            <span class="text-lg">Analyzing with AI...</span>
+                        </div>
+                        <div class="w-full max-w-xs bg-slate-800 rounded-full h-1.5">
+                            <div id="progress-bar" class="bg-gradient-to-r from-[#174a75] to-[#1a8be4] h-1.5 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="results-section" class="pb-24 hidden">
+                 <div class="main-container space-y-12">
+                    <div class="text-center reveal">
+                        <h2 class="text-5xl font-bold tracking-tighter text-slate-50">Intelligence <span class="gradient-text">Dashboard</span></h2>
+                        <div class="mt-8 inline-block">
+                           <select id="entity-selector" class="w-auto bg-gray-900/70 border border-slate-700 text-slate-200 text-base rounded-full py-3 px-6 focus:ring-2 focus:ring-blue-500 focus:outline-none appearance-none"></select>
+                        </div>
+                    </div>
+                    
+                    <div id="dashboard-container" class="space-y-8">
+                        <div id="metrics-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-6 reveal" style="transition-delay: 200ms;"></div>
+                        <div class="reveal" style="transition-delay: 400ms;">
+                           <div class="glass-card rounded-3xl p-6 sm:p-8">
+                               <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                                   <div class="lg:col-span-3 min-h-[450px]" id="plotly-chart"></div>
+                                   <div class="lg:col-span-2" id="ai-analysis"></div>
+                               </div>
+                           </div>
+                        </div>
+                    </div>
+
+                    <div id="error-display" class="hidden reveal p-8 glass-card border-red-500/30 rounded-3xl text-center">
+                         <h3 class="text-2xl font-bold text-red-400 mb-2">Assessment Failed</h3>
+                         <p id="error-message" class="text-red-400 font-mono text-base"></p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Chatbot -->
+    <div id="chat-container" class="fixed bottom-10 right-10 z-50">
+        <button id="chat-bubble" class="bg-white text-black w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition-transform hover:scale-110">
+             <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"></path></svg>
+        </button>
+        <div id="chat-widget" class="chat-hidden absolute bottom-24 right-0 w-80 sm:w-96 glass-card flex flex-col rounded-2xl shadow-2xl">
+            <div class="p-4 flex justify-between items-center border-b border-slate-700/50">
+                <h3 class="font-semibold text-slate-200">AI Assistant</h3>
+                <button id="close-chat" class="text-slate-500 hover:text-slate-300 text-2xl font-light">&times;</button>
+            </div>
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto max-h-[60vh] space-y-4">
+                 <div class="flex items-start gap-3">
+                    <div class="bg-slate-700 text-slate-300 p-2 rounded-full h-8 w-8 flex-shrink-0 flex items-center justify-center text-sm font-medium">AI</div>
+                    <div class="bg-slate-800 p-3 rounded-xl max-w-xs"><p class="text-sm text-slate-300">Hello! How may I assist you?</p></div>
+                </div>
+            </div>
+            <div class="p-3 border-t border-slate-700/50">
+                <div class="flex items-center gap-2">
+                    <input type="text" id="chat-input" placeholder="Type a message..." class="w-full px-3 py-2 bg-slate-800/50 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-slate-200">
+                    <button id="send-btn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500 disabled:opacity-50 text-sm font-medium">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // --- Core Application Logic ---
+        const fileUpload = document.getElementById('file-upload'), fileNameDisplay = document.getElementById('file-name');
+        const runAssessmentBtn = document.getElementById('run-assessment'), loadingIndicator = document.getElementById('loading-indicator');
+        const resultsSection = document.getElementById('results-section'), entitySelector = document.getElementById('entity-selector');
+        const dashboardContainer = document.getElementById('dashboard-container'), errorDisplay = document.getElementById('error-display');
+        const errorMessage = document.getElementById('error-message'), metricsGrid = document.getElementById('metrics-grid');
+        const plotlyChartDiv = document.getElementById('plotly-chart'), aiAnalysisDiv = document.getElementById('ai-analysis');
+        const progressBar = document.getElementById('progress-bar');
+        let assessmentsData = [];
+        let progressInterval;
+
+        fileUpload.addEventListener('change', () => {
+            fileNameDisplay.textContent = fileUpload.files.length > 0 ? fileUpload.files[0].name : 'Choose File';
+            runAssessmentBtn.disabled = fileUpload.files.length === 0;
+        });
+
+        runAssessmentBtn.addEventListener('click', async () => {
+            if (fileUpload.files.length === 0) return;
+            
+            // Start loading animation
+            progressBar.style.width = '0%';
+            loadingIndicator.style.display = 'flex';
+            runAssessmentBtn.disabled = true;
+            resultsSection.style.display = 'none';
+            document.querySelectorAll('.reveal').forEach(el => el.classList.remove('visible'));
+            
+            // Simulate progress
+            let progress = 0;
+            progressInterval = setInterval(() => {
+                progress += Math.random() * 5;
+                if (progress > 95) {
+                    clearInterval(progressInterval);
+                }
+                progressBar.style.width = progress + '%';
+            }, 200);
+
+            const formData = new FormData();
+            formData.append('entities', fileUpload.files[0]);
+
+            try {
+                const response = await fetch('http://localhost:3000/api/assess', { method: 'POST', body: formData });
+                if (!response.ok) throw new Error((await response.json()).error || 'An unknown error occurred.');
+                assessmentsData = await response.json();
+                populateEntitySelector();
+                resultsSection.style.display = 'block';
+                setTimeout(() => {
+                    window.scrollTo({ top: resultsSection.offsetTop - 100, behavior: 'smooth' });
+                    observeReveals();
+                }, 100);
+            } catch (error) {
+                resultsSection.style.display = 'block';
+                dashboardContainer.style.display = 'none';
+                errorDisplay.style.display = 'block';
+                errorMessage.textContent = error.message;
+                setTimeout(() => observeReveals(), 100);
+            } finally {
+                clearInterval(progressInterval);
+                progressBar.style.width = '100%';
+                setTimeout(() => {
+                    loadingIndicator.style.display = 'none';
+                }, 500);
+                runAssessmentBtn.disabled = false;
+            }
+        });
+
+        entitySelector.addEventListener('change', () => renderDashboard(assessmentsData.find(a => a.entity_name === entitySelector.value)));
+
+        function populateEntitySelector() {
+            entitySelector.innerHTML = '';
+            assessmentsData.forEach(a => {
+                const option = document.createElement('option');
+                option.value = option.textContent = a.entity_name;
+                entitySelector.appendChild(option);
+            });
+            if (assessmentsData.length > 0) renderDashboard(assessmentsData[0]);
+        }
+        
+        function renderDashboard(assessment) {
+            if (!assessment) return;
+            dashboardContainer.style.transition = 'opacity 0.4s ease-in-out';
+            dashboardContainer.style.opacity = 0;
+            errorDisplay.style.display = 'none';
+
+            setTimeout(() => {
+                if (assessment.error) {
+                    dashboardContainer.style.display = 'none';
+                    errorDisplay.style.display = 'block';
+                    errorMessage.textContent = `For entity "${assessment.entity_name}": ${assessment.error}. Details: ${assessment.explanation?.primary_explanation || 'N/A'}`;
+                } else {
+                    dashboardContainer.style.display = 'block';
+                    errorDisplay.style.display = 'none';
+                    renderMetrics(assessment);
+                    createRiskDashboard(assessment);
+                    renderAiAnalysis(assessment);
+                }
+                dashboardContainer.style.opacity = 1;
+            }, 400);
+        }
+
+        function renderMetrics(assessment) {
+            metricsGrid.innerHTML = '';
+
+            const confidenceScore = assessment.explanation?.confidence_score;
+            const formattedConfidence = typeof confidenceScore === 'number'
+                ? `${Math.round(confidenceScore * 100)}%` // Multiply by 100 before rounding
+                : 'N/A';
+
+            const metrics = [
+                { label: 'Credit Score', value: assessment.credit_score, color: assessment.risk_color },
+                { label: 'Risk Level', value: assessment.risk_level },
+                { label: 'Compliance Score', value: `${assessment.compliance_result?.compliance_score ?? 'N/A'}%` },
+                { label: 'AI Confidence', value: formattedConfidence }
+            ];
+            metrics.forEach(metric => {
+                const metricEl = document.createElement('div');
+                metricEl.className = 'glass-card rounded-2xl p-5 text-center';
+                metricEl.innerHTML = `
+                    <p class="text-base text-slate-400">${metric.label}</p>
+                    <p class="text-4xl font-semibold tracking-tight" style="color: ${metric.label === 'Credit Score' ? metric.color : '#E2E8F0'}">${metric.value}</p>`;
+                metricsGrid.appendChild(metricEl);
+            });
+        }
+        
+        function renderAiAnalysis(assessment) {
+            const { explanation } = assessment;
+            const decision = explanation?.decision;
+
+            const decisionColor = (decision?.toLowerCase() === 'approve') ? 'text-green-400' : 
+                                  (decision?.toLowerCase() === 'deny') ? 'text-red-400' : 'text-yellow-400';
+
+            // Standardize capitalization for display
+            const formattedDecision = decision
+                ? decision.charAt(0).toUpperCase() + decision.slice(1).toLowerCase()
+                : 'N/A';
+
+            // FIX: Handle cases where detailed_factors are objects instead of strings
+            const factorsList = (explanation?.detailed_factors?.length > 0) 
+                ? explanation.detailed_factors.map(f => {
+                    if (typeof f === 'object' && f !== null) {
+                        return `<li>${Object.values(f)[0]}</li>`; // Extract the first value from the object
+                    }
+                    return `<li>${f}</li>`; // Handle as a string
+                }).join('') 
+                : '<li>Not available</li>';
+            
+            aiAnalysisDiv.innerHTML = `
+                <h3 class="text-2xl font-bold text-slate-200 mb-6">AI Analysis</h3>
+                <div class="space-y-8 text-base">
+                    <div>
+                        <p class="text-sm text-slate-400 uppercase tracking-wider font-medium">Recommendation</p>
+                        <p class="text-3xl font-bold ${decisionColor}">${formattedDecision}</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-slate-300 mb-2">Summary</p>
+                        <p class="text-slate-400 leading-relaxed">${explanation?.primary_explanation ?? 'N/A'}</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-slate-300 mb-2">Key Factors</h4>
+                        <ul class="list-disc list-inside space-y-2 text-slate-400">
+                            ${factorsList}
+                        </ul>
+                    </div>
+                </div>`;
+        }
+        
+        function createRiskDashboard(assessment) {
+            const creditScoreTrace = { type: "indicator", mode: "gauge+number", value: assessment.credit_score, gauge: { axis: { range: [300, 850] }, bar: { color: assessment.risk_color }, bgcolor: "rgba(0,0,0,0.2)", bordercolor: "#4b5563" } };
+            const complianceScoreTrace = { type: "indicator", mode: "gauge+number", value: assessment.compliance_result?.compliance_score ?? 0, gauge: { axis: { range: [0, 100] }, bar: { color: "#1a8be4" }, bgcolor: "rgba(0,0,0,0.2)", bordercolor: "#4b5563" } };
+            const plotData = [
+                {...creditScoreTrace, domain: {row: 0, column: 0}, title: { text: "Credit Score"}}, 
+                {...complianceScoreTrace, domain: {row: 0, column: 1}, title: { text: "Compliance Score"}}
+            ];
+            const layout = { grid: {rows: 1, columns: 2, pattern: 'independent'}, margin: { l: 20, r: 20, b: 20, t: 40 }, paper_bgcolor: 'rgba(0,0,0,0)', font: { family: "Inter, sans-serif", size: 16, color: "#e5e7eb" } };
+            Plotly.newPlot(plotlyChartDiv, plotData, layout, {responsive: true});
+        }
+
+        function observeReveals() {
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }
+
+        // --- Chatbot Logic ---
+        const chatBubble = document.getElementById('chat-bubble'), chatWidget = document.getElementById('chat-widget');
+        const closeChatBtn = document.getElementById('close-chat'), chatMessages = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input'), sendBtn = document.getElementById('send-btn');
+        let conversationHistory = [];
+
+        chatBubble.addEventListener('click', () => chatWidget.classList.toggle('chat-hidden'));
+        closeChatBtn.addEventListener('click', () => chatWidget.classList.add('chat-hidden'));
+        sendBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+
+        async function sendMessage() {
+            const messageText = chatInput.value.trim();
+            if (messageText === '') return;
+            addMessage(messageText, 'user');
+            conversationHistory.push({ role: 'user', content: messageText });
+            chatInput.value = '';
+            setChatInputDisabled(true);
+            showTypingIndicator();
+            try {
+                const response = await fetch('http://localhost:3000/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ conversation: conversationHistory }) });
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const data = await response.json();
+                removeTypingIndicator();
+                addMessage(data.reply, 'bot');
+                conversationHistory.push({ role: 'assistant', content: data.reply });
+            } catch (error) {
+                removeTypingIndicator();
+                addMessage("Sorry, I'm having trouble connecting.", 'bot');
+                console.error("Chat error:", error);
+            } finally {
+                setChatInputDisabled(false);
+            }
+        }
+        function setChatInputDisabled(disabled) { chatInput.disabled = disabled; sendBtn.disabled = disabled; if (!disabled) chatInput.focus(); }
+        function addMessage(text, sender) {
+            const msgEl = document.createElement('div');
+            msgEl.className = `flex items-start gap-3 ${sender === 'user' ? 'justify-end' : ''}`;
+            msgEl.innerHTML = sender === 'user' ? `<div class="bg-blue-600 text-white p-3 rounded-2xl max-w-xs"><p class="text-sm leading-relaxed">${text}</p></div>` : `<div class="bg-slate-700 text-slate-300 p-2 rounded-full h-8 w-8 flex-shrink-0 flex items-center justify-center text-sm font-medium">AI</div><div class="bg-slate-800 p-3 rounded-xl max-w-xs"><p class="text-sm text-slate-300 leading-relaxed">${text}</p></div>`;
+            chatMessages.appendChild(msgEl);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        function showTypingIndicator() {
+            const typingEl = document.createElement('div');
+            typingEl.id = 'typing-indicator';
+            typingEl.className = 'flex items-start gap-3';
+            typingEl.innerHTML = `<div class="bg-slate-700 text-slate-300 p-2 rounded-full h-8 w-8 flex-shrink-0 flex items-center justify-center text-sm font-medium">AI</div><div class="bg-slate-800 p-3 rounded-xl"><div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce"></span><span class="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce" style="animation-delay: 0.1s;"></span><span class="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce" style="animation-delay: 0.2s;"></span></div></div>`;
+            chatMessages.appendChild(typingEl);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        function removeTypingIndicator() { document.getElementById('typing-indicator')?.remove(); }
+    </script>
+</body>
+</html>

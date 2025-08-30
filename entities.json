@@ -1,0 +1,90 @@
+[
+  {
+    "entity_name": "Adhish",
+    "credit_data": {
+      "payment_history_score": 0.85,
+      "credit_utilization": 0.25,
+      "credit_history_months": 72,
+      "credit_types": 3,
+      "recent_inquiries": 1
+    },
+    "financial_data": {
+      "annual_income": 120000,
+      "total_debt": 40000,
+      "current_assets": 50000,
+      "current_liabilities": 20000,
+      "total_assets": 200000,
+      "total_equity": 100000,
+      "net_income": 15000,
+      "ebit": 20000,
+      "interest_expense": 3000,
+      "inventory": 5000
+    }
+  },
+  {
+    "entity_name": "Jhagruth",
+    "credit_data": {
+      "cibil_score": 780,
+      "payment_history_score": 0.75,
+      "credit_utilization": 0.6,
+      "credit_history_months": 40,
+      "credit_types": 2,
+      "recent_inquiries": 4
+    },
+    "financial_data": {
+      "annual_income": 80000,
+      "total_debt": 50000,
+      "current_assets": 30000,
+      "current_liabilities": 25000,
+      "total_assets": 150000,
+      "total_equity": 50000,
+      "net_income": 5000,
+      "ebit": 10000,
+      "interest_expense": 4000,
+      "inventory": 2000
+    }
+  },
+  {
+    "entity_name": "Tisma",
+    "credit_data": {
+      "payment_history_score": 0.9,
+      "credit_utilization": 0.1,
+      "credit_history_months": 5,
+      "credit_types": 1,
+      "recent_inquiries": 1
+    },
+    "financial_data": {
+      "annual_income": 65000,
+      "total_debt": 5000,
+      "current_assets": 10000,
+      "current_liabilities": 2000,
+      "total_assets": 15000,
+      "total_equity": 13000,
+      "net_income": 12000,
+      "ebit": 14000,
+      "interest_expense": 500,
+      "inventory": 1000
+    }
+  },
+  {
+    "entity_name": "Tom",
+    "credit_data": {
+      "cibil_score": 570,
+      "payment_history_score": 0.88,
+      "credit_utilization": 0.5,
+      "credit_history_months": 120,
+      "credit_types": 5,
+      "recent_inquiries": 0
+    },
+    "financial_data": {
+      "annual_income": 150000,
+      "total_debt": 90000,
+      "current_assets": 70000,
+      "current_liabilities": 45000,
+      "total_assets": 300000,
+      "total_equity": 180000,
+      "net_income": 25000,
+      "interest_expense": 8000
+    }
+  }
+]
