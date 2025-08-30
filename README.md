@@ -82,3 +82,64 @@ Follow these instructions to set up and run the project locally.
    ```bash
    git clone https://github.com/your-username/compliance-copilot.git
    cd compliance-copilot
+    ```
+2. **Set Up Environment Variables**
+   
+   Create a ```.env``` file in the project root:
+    ```bash
+    AWS_REGION=us-east-1
+    ```
+3. **Install Node.js Dependencies**
+     ```bash
+    npm install
+     ```
+4. **Install Python Dependencies**
+     ```bash
+    pip install -r requirements.txt
+      ```
+---
+     
+**▶️ Running the Application**
+
+This project uses concurrently to run both the Node.js and Python servers with a single command:
+```bash
+npm run dev
+```
+
+This will start:
+- Node.js server → http://localhost:3000
+- Python FastAPI server → http://localhost:8000
+
+Logs from both services will appear in your terminal.
+
+---
+
+📌 Usage
+1. Open the Frontend → Open index.html in your browser
+2. Upload Data → Click Choose File and select entities.json (or similar JSON file)
+3. Generate Report → Click Generate Report to start the assessment
+4. View Dashboard → See interactive visualizations of risk and compliance metrics
+5. Switch Entities → Use the dropdown to analyze different entities
+6. Chat with AI → Click the chat bubble (bottom-right) to interact with the AI Assistant
+
+---
+
+📂 Project Structure
+```bash
+compliance-copilot/
+│── index.html               # Frontend UI
+│── server.js                # Node.js backend gateway
+│── risk_agent_api.py        # FastAPI microservice
+│── orchestrator.py          # Workflow manager for risk checks
+│── requirements.txt         # Python dependencies
+│── package.json             # Node.js dependencies
+│── .env                     # AWS region config
+│── /static                  # JS, CSS, assets
+│── /data                    # Sample input JSON
+```
+
+---
+
+**🤝 Contributing**
+
+Contributions are welcome! Please fork the repo and submit a PR with improvements.
